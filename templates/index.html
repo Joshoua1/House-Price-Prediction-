@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Price Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"], input[type="radio"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .form-section {
+            display: none;
+        }
+        .form-section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>House Price Prediction</h1>
+
+    <form method="POST">
+        <label>Select Prediction Mode:</label><br>
+<div class="radio-group">
+    <label>
+        <input type="radio" name="mode" value="basic" onclick="toggleForm()"> Basic
+    </label>
+    <label>
+        <input type="radio" name="mode" value="advanced" onclick="toggleForm()"> Advanced
+    </label>
+</div><br>
+
+        <div id="basic-form" class="form-section">
+            <h2>Basic Prediction Form</h2>
+            Living Area (sq ft): <input type="text" name="living_area"><br>
+            Grade of the House (1-10): <input type="text" name="grade_of_the_house"><br>
+            Area of the House (excluding basement) (sq ft): <input type="text" name="area_of_the_house(excluding_basement)"><br>
+        </div>
+
+        <div id="advanced-form" class="form-section">
+            <h2>Advanced Prediction Form</h2>
+            Living Area (sq ft): <input type="text" name="living_area"><br>
+            Grade of the House (1-10): <input type="text" name="grade_of_the_house"><br>
+            Area of the House (excluding basement) (sq ft): <input type="text" name="area_of_the_house(excluding_basement)"><br>
+            Number of Bedrooms: <input type="text" name="number_of_bedrooms"><br>
+            Number of Bathrooms: <input type="text" name="number_of_bathrooms"><br>
+            Lot Area (sq ft): <input type="text" name="lot_area"><br>
+            Number of Floors: <input type="text" name="number_of_floors"><br>
+            Waterfront Present (1 for Yes, 0 for No): <input type="text" name="waterfront_present"><br>
+            Condition of the House (1-5): <input type="text" name="condition_of_the_house"><br>
+            Area of the Basement (sq ft): <input type="text" name="area_of_the_basement"><br>
+            Built Year: <input type="text" name="built_year"><br>
+        </div>
+
+        <button type="submit">Predict Price</button>
+    </form>
+
+    {% if predicted_price is not none %}
+        <h2 style="text-align:center; color:#28a745;">Predicted Price: ₹{{ predicted_price | round(2) }}</h2>
+    {% endif %}
+
+    <script>
+        function toggleForm() {
+            const basicForm = document.getElementById('basic-form');
+            const advancedForm = document.getElementById('advanced-form');
+            
+            if (document.querySelector('input[name="mode"]:checked').value === 'basic') {
+                basicForm.classList.add('active');
+                advancedForm.classList.remove('active');
+                basicForm.style.display = "block";
+                advancedForm.style.display = "none";
+            } else {
+                basicForm.classList.remove('active');
+                advancedForm.classList.add('active');
+                basicForm.style.display = "none";
+                advancedForm.style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+</html>
